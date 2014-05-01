@@ -1,0 +1,66 @@
+<%= form_for @operation, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :amount, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :amount, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :comment, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :comment, :class => 'text_area' %>
+    </div>
+  </div>  
+  <div class="control-group">
+    <%= f.label :is_income, 'Type', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select :is_income, [['Income',true],['Expense',false]] %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Categories</label>
+    <div class="well controls"> 
+      <% for category in Category.where("user_id = ? AND is_income = ?", @operation.user_id, @operation.is_income) %> 
+      <label class="checkbox"><%= check_box_tag "operation[category_ids][]", category.id, @operation.categories.include?(category),{ :id => "product_category_ids_"+ category.id.to_s} %><%= category.name %></label>
+      <% end %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :date, 'Datetime', :class => 'control-label' %>
+    <div class="controls">
+      <div id="datetimepicker1" class="input-append date">
+        <%= f.text_field :date, :class => 'text_field', :id => 'datetimepicker1', :'data-format' => "dd/MM/yyyy hh:mm:ss", :value => @operation.date.getlocal.strftime("%d/%m/%Y %H:%M:%S") %>
+        <span class="add-on">
+          <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span>
+      </div>
+    </div>      
+  </div>
+  <div class="controls">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                operations_path, :class => 'btn' %>
+  </div>
+<% end %>
+
+<div class="collapse" id="user_id"><%= @operation.user_id %></div>
+
+<script type="text/javascript">
+  $(function () {
+      $('#datetimepicker1').datetimepicker();
+      $('#operation_is_income').change(function () {
+        var p = $('#operation_is_income').val();   
+        var u = $('#user_id').text();
+        $.ajaxSetup({ cache: false });
+        $.ajax({
+          method: "GET",
+          url: "/operations/ajax_categories",
+          data: {'is_income': p, 'user_id': u},
+          dataType: "json",
+          success: function (data) { 
+            $('.well.controls').html(data.html)
+          }
+        });
+      });
+  });
+</script>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "TestApp" %></title>
+    <%= csrf_meta_tags %>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <%= stylesheet_link_tag "application", :media => "all" %>
+
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <!-- Size should be 144 x 144 pixels -->
+    <%= favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144' %>
+
+    <!-- For iPhone with high-resolution Retina display: -->
+    <!-- Size should be 114 x 114 pixels -->
+    <%= favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114' %>
+
+    <!-- For first- and second-generation iPad: -->
+    <!-- Size should be 72 x 72 pixels -->
+    <%= favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72' %>
+
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <!-- Size should be 57 x 57 pixels -->
+    <%= favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png' %>
+
+    <!-- For all other devices -->
+    <!-- Size should be 32 x 32 pixels -->
+    <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">      
+			<a class="brand" href="/">Personal bookkeeping</a>
+			<ul class="nav nav-pills">
+			  <li class="<%= 'active' if params[:controller] == 'categories' %>"><%= link_to "Categories", categories_path %></li>
+			  <li class="<%= 'active' if params[:controller] == 'operations' %>"><%= link_to "Operations", operations_path %></li>
+			</ul>
+
+			<div class="pull-right">
+				<% if user_signed_in? %>
+						<span class="nav navbar-text">Logged in as <b><%= current_user.email %></b>.</span>
+						<%= link_to 'Edit profile', edit_user_registration_path, :class => 'btn btn-success' %>
+						<%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'btn btn-danger'  %>
+				<% else %>
+					<%= link_to "Register", new_user_registration_path, :class => 'btn btn-success'  %>
+					<%= link_to "Login", new_user_session_path, :class => 'btn btn-primary'  %>
+				<% end %>
+			</div>
+    </div>
+	</div>
+</div>
+
+    <div class="container">
+        <div class="row">
+          <div class="span9">
+            
+					<% flash.each do |key, value| %>
+				    <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+				  <% end %>
+
+            <%= yield %>
+          </div>
+
+          <% if user_signed_in? %>
+	          <div class="span3">
+	            <div class="well sidebar-nav">
+	              <ul class="nav nav-list">
+	                <li class="nav-header">Actions</li>
+	                <li><%= link_to "Add category", new_category_path  %></li>
+	                <li><%= link_to "Add operation", new_operation_path  %></li>
+	              </ul>
+	            </div><!--/.well -->
+	          </div><!--/span3-->
+	        <% end %>
+        </div><!--/row-->
+    </div> <!-- /container -->
+
+  </body>
+</html>

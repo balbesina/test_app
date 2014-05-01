@@ -1,0 +1,19 @@
+<%= form_for @category, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :is_income, 'Type', :class => 'control-label'%>
+    <div class="controls">
+      <%= f.select :is_income, [['Income',true],['Expense',false]] %>
+    </div>
+  </div>
+  <div class="controls">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                categories_path, :class => 'btn' %>
+  </div>
+<% end %>
