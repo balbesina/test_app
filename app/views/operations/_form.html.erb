@@ -29,7 +29,7 @@
     <%= f.label :date, 'Datetime', :class => 'control-label' %>
     <div class="controls">
       <div id="datetimepicker1" class="input-append date">
-        <%= f.text_field :date, :class => 'text_field', :id => 'datetimepicker1', :'data-format' => "dd/MM/yyyy hh:mm:ss", :value => @operation.date.getlocal.strftime("%d/%m/%Y %H:%M:%S") %>
+        <%= f.text_field :date, :class => 'text_field', :id => 'datetimepicker1', :'data-format' => "dd/MM/yyyy hh:mm:ss", :value => @operation.date.utc.strftime("%d/%m/%Y %H:%M:%S") %>
         <span class="add-on">
           <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
         </span>

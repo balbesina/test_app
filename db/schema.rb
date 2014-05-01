@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140430233620) do
+ActiveRecord::Schema.define(version: 20140501174426) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140430233620) do
   end
 
   create_table "operations", force: true do |t|
-    t.integer  "amount"
+    t.float    "amount"
     t.string   "comment"
     t.boolean  "is_income"
     t.datetime "created_at"

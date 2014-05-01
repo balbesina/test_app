@@ -16,7 +16,7 @@
   <tbody>
     <% @operations.each do |operation| %>
       <tr>
-        <td><%= "-" if not operation.is_income? %><%= operation.amount %></td>
+        <td><%= "-" if not operation.is_income? %> $ <%= separate_comma(operation.amount.round(2)) %></td>
         <td><%= operation.comment %></td>
         <td>
           <% if operation.is_income %>
@@ -30,7 +30,7 @@
             <%= category.name %><%= "," if category != operation.categories.last %>
           <% end %>
         </td>
-        <td><%= operation.date.getlocal.strftime("%d/%m/%Y %H:%M:%S") %></td>
+        <td><%= operation.date.utc.strftime("%d/%m/%Y %H:%M:%S") %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_operation_path(operation), :class => 'btn btn-mini' %>

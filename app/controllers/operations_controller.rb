@@ -16,9 +16,9 @@ class OperationsController < ApplicationController
   # GET /operations/new
   def new
     @operation = Operation.new
-    @operation.date = DateTime.now
     @operation.user_id = current_user.id
     @operation.is_income = true
+    @operation.date = DateTime.now
   end
 
   def ajax_categories
@@ -47,7 +47,6 @@ class OperationsController < ApplicationController
   def create
     @operation = Operation.new(operation_params)
     @operation.user_id = current_user.id
-    @operation.date = @operation.date.utc
     if @operation.save
       redirect_to operations_url, notice: 'Operation was successfully created.'
     else
@@ -57,8 +56,7 @@ class OperationsController < ApplicationController
 
   # PATCH/PUT /operations/1
   def update    
-    params[:operation][:category_ids] ||= []
-    @operation.date = @operation.date.utc
+    params[:operation][:category_ids] ||= [] 
     if @operation.update(operation_params)
       redirect_to operations_url, notice: 'Operation was successfully updated.'
     else
