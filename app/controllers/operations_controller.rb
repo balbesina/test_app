@@ -22,7 +22,7 @@ class OperationsController < ApplicationController
   end
 
   def ajax_categories
-    @categories = Category.where("user_id = ? AND is_income = ?", params[:user_id], params[:is_income] == 'true')
+    @categories = Category.where("user_id = ? AND is_income = ?", current_user.id, params[:is_income] == 'true')
 
     @result = ""
     for category in @categories

@@ -43,20 +43,20 @@
   </div>
 <% end %>
 
-<div class="collapse" id="user_id"><%= @operation.user_id %></div>
-
 <script type="text/javascript">
   $(function () {
       $('#datetimepicker1').datetimepicker();
       $('#operation_is_income').change(function () {
-        var p = $('#operation_is_income').val();   
-        var u = $('#user_id').text();
+        var p = $('#operation_is_income').val();
         $.ajaxSetup({ cache: false });
         $.ajax({
           method: "GET",
           url: "/operations/ajax_categories",
-          data: {'is_income': p, 'user_id': u},
-          dataType: "json",
+          beforeSend: function(jqXHR, settings) {
+            jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+          },
+          data: {'is_income': p},
+          dataType: 'json',
           success: function (data) { 
             $('.well.controls').html(data.html)
           }
