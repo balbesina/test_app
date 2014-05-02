@@ -19,7 +19,7 @@
   </div>
   <div class="control-group">
     <label class="control-label">Categories</label>
-    <div class="well controls"> 
+    <div class="well controls" id="categories"> 
       <% for category in Category.where("user_id = ? AND is_income = ?", @operation.user_id, @operation.is_income) %> 
       <label class="checkbox"><%= check_box_tag "operation[category_ids][]", category.id, @operation.categories.include?(category),{ :id => "product_category_ids_"+ category.id.to_s} %><%= category.name %></label>
       <% end %>
@@ -47,20 +47,9 @@
   $(function () {
       $('#datetimepicker1').datetimepicker();
       $('#operation_is_income').change(function () {
-        var p = $('#operation_is_income').val();
+        var p = $('#operation_is_income').val();        
         $.ajaxSetup({ cache: false });
-        $.ajax({
-          method: "GET",
-          url: "/operations/ajax_categories",
-          beforeSend: function(jqXHR, settings) {
-            jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-          },
-          data: {'is_income': p},
-          dataType: 'json',
-          success: function (data) { 
-            $('.well.controls').html(data.html)
-          }
-        });
+        $.get('<%= operation_select_categories_path(@operation) -%>', {is_income: p});        
       });
   });
 </script>

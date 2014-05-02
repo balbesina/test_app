@@ -21,17 +21,11 @@ class OperationsController < ApplicationController
     @operation.date = DateTime.now
   end
 
-  def ajax_categories
+  def select_categories
     @categories = Category.where("user_id = ? AND is_income = ?", current_user.id, params[:is_income] == 'true')
-
-    @result = ""
-    for category in @categories
-      @result += "<label class=\"checkbox\"><input id=\"product_category_ids_#{category.id}\" name=\"operation[category_ids][]\" type=\"checkbox\" value=\"#{category.id}\" />#{category.name}</label>"
-    end
-
+    @operation = Operation.find(params[:operation_id])
     respond_to do |format|
-      msg = { :status => "ok", :message => "Success!", :html => @result }
-      format.js  { render :json => msg }
+      format.js
     end
   end
 

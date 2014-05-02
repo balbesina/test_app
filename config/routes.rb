@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
 
-get 'operations/ajax_categories'
+  resources :operations do
+  	get 'select_categories'
+  end
 
-  resources :operations
-
-  resources :categories  
+  resources :categories
 
   get 'page/index'
 
