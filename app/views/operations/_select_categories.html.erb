@@ -1,3 +1,3 @@
 <% @categories.each do |category| %> 
- <label class="checkbox"><%= check_box_tag "operation[category_ids][]", category.id, @operation.categories.include?(category),{ :id => "product_category_ids_"+ category.id.to_s} %><%= category.name %></label>
+ <label class="checkbox"><%= check_box_tag "operation[category_ids][]", category.id, @operation ? @operation.categories.include?(category) : false,{ :id => "product_category_ids_"+ category.id.to_s} %><%= category.name %></label>
 <% end %>

@@ -17,13 +17,14 @@ class OperationsController < ApplicationController
   def new
     @operation = Operation.new
     @operation.user_id = current_user.id
+    @operation.id = 0
     @operation.is_income = true
     @operation.date = DateTime.now
   end
 
   def select_categories
     @categories = Category.where("user_id = ? AND is_income = ?", current_user.id, params[:is_income] == 'true')
-    @operation = Operation.find(params[:operation_id])
+    @operation = Operation.where("user_id = ? AND id = ?", current_user.id, params[:operation_id]).first
     respond_to do |format|
       format.js
     end
