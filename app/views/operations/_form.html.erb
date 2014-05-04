@@ -17,7 +17,7 @@
       <%= f.select :is_income, [['Income',true],['Expense',false]] %>
     </div>
   </div>
-  <div class="control-group">
+  <div class="control-group">    
     <label class="control-label">Categories</label>
     <div class="well controls" id="categories"> 
       <% for category in Category.where("user_id = ? AND is_income = ?", @operation.user_id, @operation.is_income) %> 
@@ -29,7 +29,7 @@
     <%= f.label :date, 'Datetime', :class => 'control-label' %>
     <div class="controls">
       <div id="datetimepicker1" class="input-append date">
-        <%= f.text_field :date, :class => 'text_field', :id => 'datetimepicker1', :'data-format' => "dd/MM/yyyy hh:mm:ss", :value => @operation.date.utc.strftime("%d/%m/%Y %H:%M:%S") %>
+        <%= f.text_field :date, :class => 'text_field', :id => 'datetimepicker1', :'data-format' => OperationsHelper::DTFormatJS, :value => @operation.date.utc.strftime(OperationsHelper::DTFormat) %>
         <span class="add-on">
           <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
         </span>
@@ -42,14 +42,3 @@
                 operations_path, :class => 'btn' %>
   </div>
 <% end %>
-
-<script type="text/javascript">
-  $(function () {
-      $('#datetimepicker1').datetimepicker();
-      $('#operation_is_income').change(function () {
-        var p = $('#operation_is_income').val();        
-        $.ajaxSetup({ cache: false });
-        $.get('<%= operation_select_categories_path(@operation) -%>', {is_income: p});        
-      });
-  });
-</script>

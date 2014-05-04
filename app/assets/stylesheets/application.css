@@ -16,20 +16,6 @@
  *= require bootstrap-datetimepicker
  */
 
-.btn.btn-primary, .btn.btn-success, .btn.btn-danger {
-	color: #ddd !important;
-}
-
-label {
-    max-width: 206px;
-}
-
-.well.controls {
-    width: 206px;
-    padding: 6px;
-    margin-bottom: 0;
-}
-
 .new_user {
 	max-width: 240px;
 }
@@ -61,3 +47,33 @@ label {
     color: #468847;
     text-align: left;
  }
+
+#filter_form .filter {
+    display: inline-block;
+    *display: inline;
+}
+
+.btn.btn-primary, .btn.btn-success, .btn.btn-danger {
+    color: #ddd !important;
+}
+
+label {
+    max-width: 206px;
+}
+
+#categories {
+    width: 206px;
+    padding: 6px;
+    margin-bottom: 0;
+}
+
+#filters {
+    padding: 6px;
+    margin-bottom: 10px;
+}
+
+    #filters label {
+        display: inline-block;
+        max-width: 200px;
+        margin: 5px 10px;
+    }

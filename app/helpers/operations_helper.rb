@@ -4,4 +4,7 @@ module OperationsHelper
 	  whole_with_commas = whole.chars.to_a.reverse.each_slice(3).map(&:join).join(",").reverse
 	  [whole_with_commas, decimal].compact.join(".")
 	end
+
+	DTFormat = '%d/%m/%Y %H:%M:%S'
+	DTFormatJS = 'dd/MM/yyyy hh:mm:ss'
 end

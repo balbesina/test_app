@@ -2,6 +2,9 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
+
+<%= render partial: 'filter' %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -30,7 +33,7 @@
             <%= category.name %><%= "," if category != operation.categories.last %>
           <% end %>
         </td>
-        <td><%= operation.date.utc.strftime("%d/%m/%Y %H:%M:%S") %></td>
+        <td><%= operation.date.utc.strftime(OperationsHelper::DTFormat) %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_operation_path(operation), :class => 'btn btn-mini' %>

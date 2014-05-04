@@ -1,0 +1,44 @@
+<%= form_tag(operations_filter_path, {id: 'filter_form'}) do %>
+
+    <div class="filter">
+      <label class="checkbox"><%= check_box_tag 'filter_by_type', 1, params[:filter_by_type] %>Type</label>    
+      <%= select_tag :is_income, options_for_select([['Income',true],['Expense',false]], params[:is_income]) %>
+    </div>
+
+    <div class="filter">
+      <label class="checkbox"><%= check_box_tag 'filter_date1', 1, params[:filter_date1] %>After</label>    
+      <div id="datetimepicker1" class="input-append date">
+        <% @dt = params[:date1].present? ? DateTime.strptime(params[:date1], OperationsHelper::DTFormat) : DateTime.now %>
+        <%= text_field_tag :date1, @dt.utc.strftime(OperationsHelper::DTFormat), {:class => 'text_field', :id => 'datetimepicker1', :'data-format' => OperationsHelper::DTFormatJS} %>
+        <span class="add-on">
+          <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span>
+      </div>
+    </div>
+
+    <div class="filter">
+      <label class="checkbox"><%= check_box_tag 'filter_date2', 1, params[:filter_date2] %>Before</label>    
+      <div id="datetimepicker2" class="input-append date">        
+        <% @dt = params[:date2].present? ? DateTime.strptime(params[:date2], OperationsHelper::DTFormat) : DateTime.now %>
+        <%= text_field_tag :date2, @dt.utc.strftime(OperationsHelper::DTFormat), {:class => 'text_field', :id => 'datetimepicker2', :'data-format' => OperationsHelper::DTFormatJS} %>
+        <span class="add-on">
+          <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span>
+      </div>
+    </div>
+
+    <div id="filters" class="well">
+      <% Category.where('user_id = ?', current_user.id).each do |category|%>
+        <label class="checkbox">
+          <%= check_box_tag "category_ids[]", category.id, params[:category_ids].present? && params[:category_ids].map(&:to_i).include?(category.id),{ :id => "product_category_ids_"+ category.id.to_s} %>
+          <%= category.name %>
+        </label>
+      <% end %>
+    </div>
+
+    <div class="filter">
+      <button class="btn btn-success">Apply filter</button>
+      <a href="<%= operations_path %>" class="btn btn-danger">Reset</a>
+    </div>
+    
+<% end %>

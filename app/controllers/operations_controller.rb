@@ -5,12 +5,23 @@ class OperationsController < ApplicationController
   respond_to :json, :js
 
   # GET /operations
-  def index
+  def index    
     @operations = Operation.where({:user_id => current_user.id}).order(date: :desc)
   end
 
-  # GET /operations/1
-  def show
+  # POST /operations/filter
+  def filter
+    @operations = Operation.where({:user_id => current_user.id})
+    @operations = @operations.where({:is_income => params[:is_income] == 'true'}) if params[:filter_by_type].present?
+    @operations = @operations.where('date >= ?', DateTime.strptime(params[:date1], OperationsHelper::DTFormat)) if params[:filter_date1].present?
+    @operations = @operations.where('date <= ?', DateTime.strptime(params[:date2], OperationsHelper::DTFormat)) if params[:filter_date2].present?
+    if params[:category_ids].present?
+        params[:category_ids].each do |category_id|
+          @operations = @operations.joins(:categories).where(categories: {id: params[:category_ids]}).distinct
+        end
+    end
+    @operations = @operations.order(date: :desc)
+    render :index
   end
 
   # GET /operations/new
@@ -74,5 +85,9 @@ class OperationsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def operation_params
       params.require(:operation).permit(:amount, :comment, :is_income, :date, :category_ids => [])
+    end
+
+    def filter_params
+      params.permit(:filter_by_type,:is_income, :filter_date1, :date1, :filter_date2, :date2, :category_ids => [])
     end
 end
