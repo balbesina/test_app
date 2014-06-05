@@ -5,12 +5,13 @@ Rails.application.routes.draw do
 
   resources :operations do
   	get 'select_categories'
+  	post 'filter', on: :collection
   end
 
   resources :categories
 
   get 'page/index'
 
-	root 'page#index'
+  root 'page#index'
 
 end
