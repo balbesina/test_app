@@ -49,7 +49,7 @@
     $('#operation_is_income').change(function () {
       var p = $('#operation_is_income').val();        
       $.ajaxSetup({ cache: false });
-      $.get('<%= operation_select_categories_path(@operation) -%>', {is_income: p});        
+      $.get('<%= url_for select_categories_operation_path(@operation) -%>', {is_income: p});
     });
   });
 </script>

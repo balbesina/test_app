@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  post '/operations/filter', to: 'operations#filter'
-
   resources :operations do
-  	get 'select_categories'
+  	get 'select_categories', on: :member
   	post 'filter', on: :collection
   end
 

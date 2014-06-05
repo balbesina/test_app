@@ -1,4 +1,4 @@
-<%= form_tag(operations_filter_path, {id: 'filter_form'}) do %>
+<%= form_tag(filter_operations_path, {id: 'filter_form'}) do %>
 
     <div class="filter">
       <label class="checkbox"><%= check_box_tag 'filter_by_type', 1, params[:filter_by_type] %>Type</label>    
